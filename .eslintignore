@@ -1,0 +1,9 @@
+# Dirs
+.vscode/
+dist/
+node_modules/
+postgres_data/
+requests/
+
+# Files
+.eslintrc.js
