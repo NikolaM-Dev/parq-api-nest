@@ -1,0 +1,36 @@
+# @name findMany
+GET {{HOST}}/api/users
+
+###
+
+# @name findById
+GET {{HOST}}/api/users/4
+
+###
+
+# @name create
+POST  {{HOST}}/api/users
+Content-Type: application/json
+
+{
+  "nombre": "bob3",
+  "apellido": "boby",
+  "ciudad": "Cali",
+  "direccion": "Carrera 4 #8-28"
+}
+
+###
+
+# @name update
+PUT {{HOST}}/api/users/2
+Content-Type: application/json
+
+{
+  "nombre": "Bob2"
+}
+
+###
+
+# @name remove
+DELETE {{HOST}}/api/users/3
+
