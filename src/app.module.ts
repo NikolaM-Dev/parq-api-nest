@@ -4,7 +4,9 @@ import * as Joi from 'joi';
 
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './app.enviroments';
+import { ModulesModule } from './modules/modules.module';
 import config from './app.config';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,6 +18,7 @@ import config from './app.config';
       }),
     }),
     DatabaseModule,
+    ModulesModule,
   ],
 })
 export class AppModule {}
