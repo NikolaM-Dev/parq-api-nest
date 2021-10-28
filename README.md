@@ -9,38 +9,27 @@ Llevando a cabo la estrategia de flujo de trabajo de git [desarrollo basado en t
 
 ## Instalación
 
-```sh
-# yarn
-yarn
-
-# npm
-npm install
-```
-
-### Corriendo la API
-
-```sh
-# development
-yarn start
-
-# watch mode
-yarn start:dev
-
-# production mode
-yarn start:prod
-```
-
-### Cómo iniciar el contenedor de la base de datos 🐘
+### Cómo iniciar el contenedor y correr la API 🐘
 
 ```sh
 # Levantar en desarrollo
-docker-compose up -d dev
+docker-compose up dev
 
 # Levantar para ambientes productivos
-docker-compose up -d prod
+docker-compose up prod
 ```
 
 > No olvide completar las variables de `.env.example` en `.env`
+
+### Migraciones
+
+```sh
+# dev o prod según sea el caso
+docker-compose exec dev bash
+# Estando conectamos corremos las migraciones necesarias
+```
+
+> Mirar el `package.json` para ver todos los comando scripts de migraciones
 
 ## Data Flow
 
