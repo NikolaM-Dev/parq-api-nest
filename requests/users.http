@@ -4,7 +4,7 @@ GET {{HOST}}/api/users
 ###
 
 # @name findById
-GET {{HOST}}/api/users/4
+GET {{HOST}}/api/users/1
 
 ###
 
@@ -13,24 +13,43 @@ POST  {{HOST}}/api/users
 Content-Type: application/json
 
 {
-  "nombre": "bob3",
-  "apellido": "boby",
-  "ciudad": "Cali",
-  "direccion": "Carrera 4 #8-28"
+  "nombre": "bob9",
+  "apellido": "Solarte9",
+  "ciudad": "Niamey",
+  "direccion": "G4PF+GR"
+}
+
+###
+
+# @name createWithCoordinates
+POST  {{HOST}}/api/users
+?
+&geolocation=true
+Content-Type: application/json
+
+{
+  "nombre": "Nikola2",
+  "apellido": "Dev",
+  "ciudad": "Fresno Tolima",
+  "direccion": "Cl. 6 #3-33"
 }
 
 ###
 
 # @name update
-PUT {{HOST}}/api/users/2
+PUT {{HOST}}/api/users/5
 Content-Type: application/json
 
 {
-  "nombre": "Bob2"
+  "direccion": "Cra 4 #2-8"
 }
 
 ###
 
-# @name remove
-DELETE {{HOST}}/api/users/3
+# @name coordinates
+GET {{HOST}}/api/users/coordinates
 
+###
+
+# @name remove
+DELETE {{HOST}}/api/users/1
