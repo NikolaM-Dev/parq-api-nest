@@ -1,4 +1,5 @@
 .vscode
+diagrams
 node_modules
 npm-debug.log
 requests
