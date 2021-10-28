@@ -1,4 +1,9 @@
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -22,24 +27,33 @@ export class UsersController {
 
   @Get()
   @ApiOkResponse({ type: [User] })
+  @ApiOperation({ summary: 'List of users' })
   async findMany(): Promise<User[]> {
     return await this.usersService.findMany();
   }
 
   @Get('coordinates')
   @ApiOkResponse({ type: User })
+  @ApiOperation({
+    summary: 'Calculates the coordinates of the users and returns them',
+  })
   async findCoordinates(): Promise<User[]> {
     return await this.usersService.findCoordinates();
   }
 
   @Get(':id')
   @ApiOkResponse({ type: User })
+  @ApiOperation({ summary: 'Find a product by ID' })
   async findById(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return await this.usersService.findById(id);
   }
 
   @Post()
   @ApiCreatedResponse({ type: User })
+  @ApiOperation({
+    summary:
+      'Create a user, If the geolocation parameter is set to true, it will calculate its coordinates automatically',
+  })
   async create(
     @Body() payload: CreateUserDto,
     @Query() params: GeolocationDto,
@@ -49,6 +63,7 @@ export class UsersController {
 
   @Put(':id')
   @ApiCreatedResponse({ type: User })
+  @ApiOperation({ summary: 'Update a product by ID' })
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
@@ -57,6 +72,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Remove a product by ID' })
   @ApiOkResponse({ type: User })
   async remove(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return await this.usersService.remove(id);
