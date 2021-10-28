@@ -1,27 +1,20 @@
-import { AxiosResponse } from 'axios';
-import { ConfigType } from '@nestjs/config';
-import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { lastValueFrom, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
 
-import config from '../../app.config';
+import { ApiService } from '../api/api.service';
 
 import { CreateUserDto, GeolocationDto } from './dtos';
-import { EstadoGeo, GeolocationAPI } from './models';
+import { EstadoGeo } from './models';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly httpService: HttpService,
-    @Inject('API_URL') private readonly API_URL: string,
-    @Inject(config.KEY)
-    private readonly configService: ConfigType<typeof config>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly apiService: ApiService,
   ) {}
 
   async findMany(): Promise<User[]> {
@@ -67,21 +60,14 @@ export class UsersService {
   }
 
   private async addCoordinates(user: User): Promise<User> {
-    const API_KEY = this.configService.apiKey;
-    const address = encodeURIComponent(`${user.ciudad} ${user.direccion}`);
-    const coordinates: Observable<AxiosResponse<GeolocationAPI>> =
-      await this.httpService.get(
-        `${this.API_URL}?address=${address}&key=${API_KEY}`,
-      );
+    const geolocation = await this.apiService.getGeolocation(user);
 
-    const { data } = await lastValueFrom(coordinates);
-
-    if (!(data.status === 'OK')) {
+    if (!(geolocation.status === 'OK')) {
       user.latitud = 0;
       user.longitud = 0;
       user.estadogeo = EstadoGeo.F;
     } else {
-      const { lat, lng } = data.results[0].geometry.location;
+      const { lat, lng } = geolocation.results[0].geometry.location;
 
       user.latitud = lat;
       user.longitud = lng;
