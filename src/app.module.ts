@@ -14,6 +14,7 @@ import config from './app.config';
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
+        API_KEY: Joi.string().required(),
         DATABASE_URL: Joi.string().required(),
       }),
     }),
