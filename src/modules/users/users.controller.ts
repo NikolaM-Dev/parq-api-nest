@@ -26,6 +26,12 @@ export class UsersController {
     return await this.usersService.findMany();
   }
 
+  @Get('coordinates')
+  @ApiOkResponse({ type: User })
+  async findCoordinates(): Promise<User[]> {
+    return await this.usersService.findCoordinates();
+  }
+
   @Get(':id')
   @ApiOkResponse({ type: User })
   async findById(@Param('id', ParseIntPipe) id: number): Promise<User> {
