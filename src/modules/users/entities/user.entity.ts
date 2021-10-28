@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -32,6 +33,10 @@ export class User {
   @Column({ type: 'float', nullable: true })
   latitud: number;
 
+  @ApiProperty({
+    description:
+      'If the user has been geolocated it will have the value of A, otherwise it will be F',
+  })
   @Column({ type: 'enum', nullable: true, enum: EstadoGeo })
   estadogeo: EstadoGeo;
 
