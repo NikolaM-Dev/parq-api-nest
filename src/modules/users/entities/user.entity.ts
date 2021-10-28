@@ -7,6 +7,8 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
+import { EstadoGeo } from '../models';
+
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -24,14 +26,14 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   ciudad: string;
 
-  @Column({ type: 'int', nullable: true })
-  longitud: string;
+  @Column({ type: 'float', nullable: true })
+  longitud: number;
 
-  @Column({ type: 'int', nullable: true })
-  latitud: string;
+  @Column({ type: 'float', nullable: true })
+  latitud: number;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  estadogeo: string;
+  @Column({ type: 'enum', nullable: true, enum: EstadoGeo })
+  estadogeo: EstadoGeo;
 
   @Exclude()
   @CreateDateColumn({
