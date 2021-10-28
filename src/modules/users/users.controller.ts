@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -8,33 +8,41 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
-import { CreateUserDto, UpdateUserDto } from './dtos';
+import { CreateUserDto, GeolocationDto, UpdateUserDto } from './dtos';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
-@ApiTags('Users')
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @ApiOkResponse({ type: [User] })
   async findMany(): Promise<User[]> {
     return await this.usersService.findMany();
   }
 
   @Get(':id')
+  @ApiOkResponse({ type: User })
   async findById(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return await this.usersService.findById(id);
   }
 
   @Post()
-  async create(@Body() payload: CreateUserDto): Promise<User> {
-    return await this.usersService.create(payload);
+  @ApiCreatedResponse({ type: User })
+  async create(
+    @Body() payload: CreateUserDto,
+    @Query() params: GeolocationDto,
+  ): Promise<User> {
+    return await this.usersService.create(payload, params);
   }
 
   @Put(':id')
+  @ApiCreatedResponse({ type: User })
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
@@ -43,6 +51,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiOkResponse({ type: User })
   async remove(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return await this.usersService.remove(id);
   }
