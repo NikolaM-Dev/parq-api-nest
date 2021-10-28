@@ -44,11 +44,11 @@ export class UsersService {
     const newUser = this.userRepository.create(payload);
 
     await this.userRepository.save(newUser);
-    if (!params) return newUser;
-
     const { geolocation } = params;
 
-    if (geolocation) return await this.addCoordinates(newUser);
+    if (!geolocation) return newUser;
+
+    return await this.addCoordinates(newUser);
   }
 
   async update(id: number, payload: UpdateUserDto): Promise<User> {
